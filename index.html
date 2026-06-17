@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Arvin Minaskan | Sound Architect</title>
 
-    <!-- FAVICON -->
+     <!-- FAVICON -->
     <link rel="icon" type="image/png" href="9b837753-ed66-4140-990d-9df8dfc2897a.png">
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@200;400;900&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --black: #080808;
             --white: #f5f5f5;
-            --red: #ff0000;
+            --red: #ff0000; /* رنگ جدید برای موس */
             --grey: #1a1a1a;
         }
 
@@ -29,6 +28,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Cinematic Grain Overlay */
         body::before {
             content: "";
             position: fixed;
@@ -39,18 +39,20 @@
             z-index: 9999;
         }
 
+        /* Custom Red Cursor - Smaller & Laser Red */
         #cursor {
-            width: 8px;
-            height: 8px;
+            width: 8px; /* کوچک‌تر شد */
+            height: 8px; /* کوچک‌تر شد */
             background: var(--red);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            box-shadow: 0 0 10px var(--red), 0 0 20px var(--red);
+            box-shadow: 0 0 10px var(--red), 0 0 20px var(--red); /* حالت درخشش لیزری */
             transition: transform 0.05s linear;
         }
 
+        /* Hero Section */
         .hero {
             height: 140vh;
             display: grid;
@@ -93,6 +95,7 @@
             margin-top: 20px;
         }
 
+        /* Content Sections */
         .section {
             padding: 15vh 5vw;
             display: grid;
@@ -104,7 +107,7 @@
         .portrait-container {
             width: 100%;
             min-height: 400px;
-            background: #111;
+            background: #111; /* جایگزین برای وقتی عکس لود نشود */
         }
 
         .portrait {
@@ -152,4 +155,85 @@
         footer {
             padding: 100px 5vw;
             border-top: 1px solid #1a1a1a;
-            display
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Space Mono';
+            font-size: 0.7rem;
+            color: #444;
+        }
+
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1.2s all cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+
+    <header class="hero">
+        <div class="hero-image"></div>
+        <div class="hero-title">
+            <p class="sub-text">ESTABLISHED 2026</p>
+            <h1>Arvin<br>Minaskan</h1>
+            <p class="sub-text">Audio Engineer & Rockstar</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div>
+            <h2 data-scroll>The Vision</h2>
+            <p data-scroll>Breaking the boundaries of modern rock and sound engineering. Arvin Minaskan combines visceral energy with surgical precision in audio production.</p>
+        </div>
+        <div class="portrait-container" data-scroll>
+            <!-- مطمئن شو اسم فایل در گیت‌هاب دقیقا همین باشد -->
+            <img src="Profile 4.png" class="portrait" alt="Arvin Minaskan">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="work-grid">
+            <div class="work-item" data-scroll>
+                <span>01. DISCOGRAPHY</span>
+                <h4>Echoes in the Dark</h4>
+            </div>
+            <div class="work-item" data-scroll>
+                <span>02. PRODUCTION</span>
+                <h4>Mastering the Chaos</h4>
+            </div>
+            <div class="work-item" data-scroll>
+                <span>03. CONTACT</span>
+                <h4>Book the Studio</h4>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>© 2026 Arvin Minaskan</div>
+        <div>STAY LOUD.</div>
+    </footer>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-scroll]').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
