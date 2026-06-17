@@ -1,209 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arvin Minaskan | Sound Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@200;400;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #080808;
+            --white: #f5f5f5;
+            --red: #ff0000; /* رنگ جدید برای موس */
+            --grey: #1a1a1a;
+        }
 
-<title>Arvin Minaskan | Sound Architect</title>
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
-<!-- FAVICON -->
-<link rel="icon" type="image/png" href="9b837753-ed66-4140-990d-9df8dfc2897a.png">
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@200;400;900&family=Space+Mono&display=swap" rel="stylesheet">
+        /* Cinematic Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 9999;
+        }
 
-<style>
-:root{
---black:#080808;
---white:#f5f5f5;
---red:#ff0000;
-}
+        /* Custom Red Cursor - Smaller & Laser Red */
+        #cursor {
+            width: 8px; /* کوچک‌تر شد */
+            height: 8px; /* کوچک‌تر شد */
+            background: var(--red);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 10px var(--red), 0 0 20px var(--red); /* حالت درخشش لیزری */
+            transition: transform 0.05s linear;
+        }
 
-*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+        /* Hero Section */
+        .hero {
+            height: 140vh;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            padding: 2rem;
+            position: relative;
+        }
 
-body{
-background-color:var(--black);
-color:var(--white);
-font-family:'Inter',sans-serif;
-overflow-x:hidden;
--webkit-font-smoothing:antialiased;
-}
+        .hero-image {
+            grid-column: 1 / 9;
+            height: 80vh;
+            background: url('1000063108-Picsart-AiImageEnhancer.jpg') no-repeat center;
+            background-size: cover;
+            filter: grayscale(1) brightness(0.6);
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+        }
 
-/* Cursor */
-#cursor{
-width:6px;
-height:6px;
-background:var(--red);
-border-radius:50%;
-position:fixed;
-pointer-events:none;
-z-index:10000;
-box-shadow:0 0 12px var(--red),0 0 20px var(--red);
-transform:translate(-50%,-50%);
-}
+        .hero-title {
+            grid-column: 4 / 13;
+            grid-row: 1;
+            margin-top: 55vh;
+            z-index: 2;
+            mix-blend-mode: exclusion;
+        }
 
-/* Hero */
-.hero{
-height:120vh;
-display:grid;
-grid-template-columns:repeat(12,1fr);
-padding:2rem;
-position:relative;
-}
+        .hero-title h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-weight: 700;
+            color: var(--white);
+        }
 
-.hero-image{
-grid-column:1 / 9;
-height:70vh;
-background:url('1000063108-Picsart-AiImageEnhancer.jpg') no-repeat center;
-background-size:cover;
-filter:grayscale(1) brightness(0.6);
-clip-path:polygon(0 0,100% 0,95% 100%,0% 100%);
-}
+        .sub-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #777;
+            margin-top: 20px;
+        }
 
-.hero-title{
-grid-column:4 / 13;
-grid-row:1;
-margin-top:45vh;
-z-index:2;
-mix-blend-mode:exclusion;
-}
+        /* Content Sections */
+        .section {
+            padding: 15vh 5vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
 
-.hero-title h1{
-font-family:'Syncopate',sans-serif;
-font-size:clamp(3rem,10vw,8rem);
-line-height:0.9;
-font-weight:700;
-}
+        .portrait-container {
+            width: 100%;
+            min-height: 400px;
+            background: #111; /* جایگزین برای وقتی عکس لود نشود */
+        }
 
-.sub-text{
-font-family:'Space Mono',monospace;
-font-size:0.7rem;
-text-transform:uppercase;
-letter-spacing:5px;
-color:#777;
-margin-top:20px;
-}
+        .portrait {
+            width: 100%;
+            display: block;
+            filter: grayscale(1);
+            transition: 0.8s filter cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
 
-/* Section */
+        .portrait:hover { filter: grayscale(0); }
 
-.section{
-padding:10vh 5vw;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:50px;
-align-items:center;
-}
+        h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+        }
 
-.portrait{
-width:100%;
-max-width:500px;
-filter:grayscale(1);
-transition:0.8s filter ease;
-border:1px solid rgba(255,255,255,0.1);
-}
+        p {
+            font-size: 1.1rem;
+            font-weight: 200;
+            line-height: 1.8;
+            max-width: 500px;
+            color: #aaa;
+        }
 
-.portrait:hover{
-filter:grayscale(0);
-}
+        .work-grid {
+            grid-column: 1 / 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 100px;
+        }
 
-h2{
-font-family:'Syncopate',sans-serif;
-font-size:2.5rem;
-margin-bottom:1.5rem;
-}
+        .work-item {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            transition: 0.4s;
+        }
 
-p{
-font-size:1rem;
-font-weight:200;
-line-height:1.6;
-color:#aaa;
-}
+        .work-item:hover { border-top-color: var(--red); }
 
-footer{
-padding:50px 5vw;
-border-top:1px solid #1a1a1a;
-display:flex;
-justify-content:space-between;
-font-family:'Space Mono';
-font-size:0.6rem;
-color:#444;
-}
+        .work-item span { font-family: 'Space Mono'; font-size: 0.7rem; color: #666; }
 
-[data-scroll]{
-opacity:0;
-transform:translateY(30px);
-transition:1s ease-out;
-}
+        footer {
+            padding: 100px 5vw;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Space Mono';
+            font-size: 0.7rem;
+            color: #444;
+        }
 
-.visible{
-opacity:1;
-transform:translateY(0);
-}
-</style>
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1.2s all cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
 </head>
-
 <body>
 
-<div id="cursor"></div>
+    <div id="cursor"></div>
 
-<header class="hero">
+    <header class="hero">
+        <div class="hero-image"></div>
+        <div class="hero-title">
+            <p class="sub-text">ESTABLISHED 2026</p>
+            <h1>Arvin<br>Minaskan</h1>
+            <p class="sub-text">Audio Engineer & Rockstar</p>
+        </div>
+    </header>
 
-<div class="hero-image"></div>
+    <section class="section">
+        <div>
+            <h2 data-scroll>The Vision</h2>
+            <p data-scroll>Breaking the boundaries of modern rock and sound engineering. Arvin Minaskan combines visceral energy with surgical precision in audio production.</p>
+        </div>
+        <div class="portrait-container" data-scroll>
+            <!-- مطمئن شو اسم فایل در گیت‌هاب دقیقا همین باشد -->
+            <img src="Profile 4.png" class="portrait" alt="Arvin Minaskan">
+        </div>
+    </section>
 
-<div class="hero-title">
-<p class="sub-text">ESTABLISHED 2026</p>
-<h1>Arvin<br>Minaskan</h1>
-<p class="sub-text">Audio Engineer & Rockstar</p>
-</div>
+    <section class="section">
+        <div class="work-grid">
+            <div class="work-item" data-scroll>
+                <span>01. DISCOGRAPHY</span>
+                <h4>Echoes in the Dark</h4>
+            </div>
+            <div class="work-item" data-scroll>
+                <span>02. PRODUCTION</span>
+                <h4>Mastering the Chaos</h4>
+            </div>
+            <div class="work-item" data-scroll>
+                <span>03. CONTACT</span>
+                <h4>Book the Studio</h4>
+            </div>
+        </div>
+    </section>
 
-</header>
+    <footer>
+        <div>© 2026 Arvin Minaskan</div>
+        <div>STAY LOUD.</div>
+    </footer>
 
-<section class="section">
+    <script>
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-<div>
-<h2 data-scroll>The Vision</h2>
-<p data-scroll>
-Breaking the boundaries of modern rock and sound engineering.
-Arvin Minaskan combines visceral energy with surgical precision
-in audio production.
-</p>
-</div>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
 
-<div data-scroll>
-<img src="profile4.png" class="portrait" alt="Arvin Minaskan">
-</div>
-
-</section>
-
-<footer>
-
-<div>© 2026 Arvin Minaskan</div>
-<div>STAY LOUD.</div>
-
-</footer>
-
-<script>
-
-const cursor=document.getElementById('cursor');
-
-document.addEventListener('mousemove',e=>{
-cursor.style.left=e.clientX+'px';
-cursor.style.top=e.clientY+'px';
-});
-
-const observer=new IntersectionObserver((entries)=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('visible');
-}
-});
-},{threshold:0.1});
-
-document.querySelectorAll('[data-scroll]').forEach(el=>{
-observer.observe(el);
-});
-
-</script>
-
+        document.querySelectorAll('[data-scroll]').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
